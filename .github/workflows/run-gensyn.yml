@@ -1,0 +1,22 @@
+name: Run Gensyn
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run Gensyn script
+        run: |
+          sudo swapoff -a
+          sudo fallocate -l 8G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          free -h
+          sudo apt update && sudo apt install -y python3 python3-venv python3-pip curl git
+          curl -sSL https://raw.githubusercontent.com/ABHIEEDA/Gensyn/main/node.sh | bash
